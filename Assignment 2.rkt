@@ -46,6 +46,39 @@
 ;testing (works but needs to be extended)
 (buildList 3 'A)
 
+;4.)
+
+(define ( DFA-Acceptor lstAlpha start lstFinal sink)
+( cond
+   [(eq? start Q0) (Q0 lstAlpha)]
+   [else 'invalid]) )
+
+(define (Q0 t)
+ (cond
+  [(eq? 0 (car t)) (Q1 (cdr t))]
+  [(eq? 1 (car t)) (Q0 (cdr t))]
+  [else P]))
+
+(define (Q1 t)
+  (cond
+    [(eq? 0 (car t)) (P)]
+    [(eq? 1 (car t)) (Q2)]
+    [else P]))
+
+(define (Q2)
+  #t)
+
+(define ( P )
+  #f)
+
+;test case
+(DFA-Acceptor '(1 1 0 1 0) Q0 ( Q2 ) P)
+(DFA-Acceptor '(1 1 1 1 0 1 0 1 0) Q0 ( Q2 ) P)
+(DFA-Acceptor '(1 0 0) Q0 ( Q2 ) P)
+
+
+
+
 #|-----Function 6-----|#
 (define (selectN n)
   (lambda (list)
