@@ -1,4 +1,6 @@
 #lang racket
+(current-namespace (make-base-namespace)) ;needed for eval to work
+
 #| CSC-135
    Assignment 2
    Marina Nikiforova
@@ -36,14 +38,17 @@
 
 
 #|-----Function 2------|#
+(define (convert-to-string List) (eval(cons string-append (map symbol->string List))))
+(convert-to-string '(a b c d))
 
-(define(concatL L1 L2)
-  (cond ((null? L1) L2)
-        ((null? L2) L1)
-        (else (cons (car L1)(cons (car L2) (concatL (cdr L1) (cdr L2)))))))
-
+(define ( concatL L M )
+  (cond ((null? L ) M)
+        ((null? M) L)
+        (else (for/list ([i L] [j M])
+                (list (convert-to-string i)(convert-to-string j))))))
 ;test
 (concatL '((a b) (c d) (d e)) '((f f f) (d e s) (v v v)))
+
 
 #|-----Function 3------|#
  (define(buildOne N E1)
